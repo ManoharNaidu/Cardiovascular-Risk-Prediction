@@ -2,17 +2,15 @@ from flask import Flask, render_template,request
 import pickle
 import numpy as np
 
-model = pickle.load(open('model_2.pkl', 'rb'))
+model = pickle.load(open('model.pkl', 'rb'))
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/predict', methods=['POST'])
-def predict_TenYearCHD():
+def predict_ten_year_chd():
     age = request.form.get("age")
     total_cholesterol= float(request.form.get("total_cholesterol"))
     systolic_blood_pressure= float(request.form.get("systolic_blood_pressure"))
@@ -20,7 +18,6 @@ def predict_TenYearCHD():
     bmi= float(request.form.get("bmi"))
     heart_rate= float(request.form.get("heart_rate"))
     blood_glucose= float(request.form.get("blood_glucose"))
-    
 
     #prediction
     input_1 = (age,total_cholesterol,systolic_blood_pressure,diastolic_blood_pressure,bmi,heart_rate,blood_glucose)
@@ -34,10 +31,5 @@ def predict_TenYearCHD():
         
     return result
     
-   
-
-
-
-
 if __name__=='__main__':
     app.run(debug=True)
